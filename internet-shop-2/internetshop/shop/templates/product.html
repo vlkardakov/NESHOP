@@ -1,0 +1,80 @@
+{% autoescape on %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+
+    <div class="navigation">
+
+    <h1><span style="color: #05016a">Нет</span>Магазин</h1>
+
+    <a class="navlink" href="/">Главная</a>
+    <a class="navlink" href="/products">Товары</a>
+    <a class="navlink" href="/aboutus">О нас</a>
+
+    </div>
+
+    <div class="productDetails">
+        <img class="productImage" src="{{ product.image_url }}">
+        <div class="productTitle">
+            <h1>{{ product.name }}</h1>
+            <div class="productPrice">
+                <h3>{{ product.price }} ₽</h3>
+                <a href="/payment/{{ product.id }}">
+                    <button>Купить</button>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="productDescription">
+        <h2>Характеристики:</h2>
+
+        {% if product.speed %}
+            <p>Скорость: {{ product.speed }} км/ч</p>
+        {% endif %}
+
+        {% if product.ram %}
+            <p>Размер оперативной памяти: {{ product.ram }} ГБ</p>
+        {% endif %}
+    </div>
+
+    <div class="productDescription">
+        <h2>Описание:</h2>
+        <p>{{ product.description }}</p>
+    </div>
+
+    <div class="productDescription">
+        <h2>Отзывы:</h2>
+
+        {% for review in reviews %}
+        <div class="review">
+            <h3>{{ review.author }}</h3>
+            <h3>Оценка:
+                {% if review.rating == 0 %}
+                <span style="color: red">отрицательная</span>
+                {% else %}
+                <span style="color: green">положительная</span>
+                {% endif %}
+            </h3>
+            <h3>Срок использования: {{ review.usage_duration }} месяцев</h3>
+            <p>{{ review.text }}</p>
+        </div>
+        {% endfor %}
+
+        <form class="createReview" method="post">
+            {% csrf_token %}
+            <label for="author">Автор:</label>
+            <input name="author">
+            <label for="rating">Оценка:</label>
+            <select name="rating">
+                <option value="0">Отрицательная</option>
+                <option value="1">Положительная</option>
+            </select>
+
+            <label for="duration">Срок использования (в месяцах):</label>
+            <input name="duration">
+            <label for="review">Текст отзыва:</label>
+            <textarea name="review"></textarea>
+            <button id="publishButton">Опубликовать</button>
+        </form>
+    </div>
+{% endautoescape %}

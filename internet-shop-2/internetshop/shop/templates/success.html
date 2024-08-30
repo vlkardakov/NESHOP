@@ -1,0 +1,20 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'style.css' %}">
+
+<div class="navigation">
+
+<h1><span style="color: #05016a">Нет</span>Магазин</h1>
+
+
+</div>
+
+<div class="paymentCard">
+    <h1>Поздравляем с покупкой!</h1>
+    <h3>Товар будет доставлен по указанному адресу</h3>
+</div>
+
+<script>
+    setTimeout(() => {
+        document.location = '/';
+    }, 3000);
+</script>
